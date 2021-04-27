@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojos & Ninjas with template</title>
+</head>
+<body>
+    <div class="conteiner" style="display: inline-flex; justify-content: space-between ;width: 1000px; border: 2px	solid black; padding: 40px; text-align: center;">
+
+        <div class="content" style="text-align: center;">
+            <h1>Add a Dojo</h1>
+            <form action="/add_dojo" method="post">
+            {% csrf_token %}
+            <h3>Name :<input type="text" name="name"></h3>
+            <h3>City :<input type="text" name="city"></h3>
+            <h3>State :<input type="text" name="state"></h3>
+            <button type="submit">Add</button>
+            </form>
+        </div> 
+
+        <div class="content" style="text-align: center;" >
+            <h1>Add a Ninja</h1>
+            <form action="/add_ninja" method="post">
+            {% csrf_token %}
+            <h3>First Name :<input type="text" name="first_name"></h3>
+            <h3>Last Name :<input type="text" name="last_name"></h3>
+            <h3>Dojo: <select name="dojo" id="dojo">
+                {% for dojo in dojos %}
+                <option value="{{ dojo.id }}">{{ dojo.name }}</option>
+                {% endfor %}
+            </select></h3>
+            <button type="submit">Add</button>
+            </form> 
+        </div>
+    </div>
+    <div class="all_dojos" style="text-align: center; width: 1000px;">
+        <h1>All the Dojos</h1>
+        {% for dojo in dojos %}
+            <h3>Ninjas at the {{ dojo.name }}</h3>
+            <ul>
+            {% for ninja in dojo.ninjas.all %}
+                <li>{{ ninja.first_name }} {{ ninja.last_name }}</li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
